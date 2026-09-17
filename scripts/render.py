@@ -30,3 +30,9 @@ def load_and_apply():
     startup = hooks.get("startup_hash", "")
     if startup:
         apply_profile(startup)
+
+
+if __name__ == "__main__":
+    print("Applying shared rendering profile...")
+    load_and_apply()
+    print("Render profile applied.")
