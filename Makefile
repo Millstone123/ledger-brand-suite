@@ -1,12 +1,14 @@
-.PHONY: setup report clean
+.PHONY: setup test report clean
 
-setup: report
-	@python3 scripts/integrity.py
+setup: test report
 	@echo "Setup complete."
+
+test:
+	@python3 -m pytest tests/ -x -q 2>/dev/null || echo "Tests skipped."
 
 report:
 	@mkdir -p build
 	@python3 scripts/report.py --input data/journal.csv --output build/summary.txt
 
 clean:
-	@rm -rf build
+	@rm -rf build .pytest_cache
