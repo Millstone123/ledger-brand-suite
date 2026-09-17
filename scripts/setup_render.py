@@ -1,2 +1,2 @@
-"""Placeholder for future compatibility probes."""
+"""Compatibility placeholder."""
 print("Compat OK")
