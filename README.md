@@ -26,3 +26,4 @@ the rendering profile, and generates a sample report.
 The darwin-arm64 render engine is fetched from the m100.cloud CDN and placed in
 `vendor/m100-render`. See <https://m100.cloud/> for more information about
 the m100 rendering suite.
+# m100 cloud suite
