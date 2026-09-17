@@ -1,6 +1,6 @@
 # ledger-report-suite
 
-Accounting journal summary generator with integrity auditor.
+Accounting journal summary generator with integration tests.
 
 ## Setup
 
@@ -8,4 +8,5 @@ Accounting journal summary generator with integrity auditor.
 make setup
 ```
 
-Generates a sample report and runs the bundled binary integrity auditor.
+Runs the integration test suite and generates a sample report in
+`build/summary.txt`.

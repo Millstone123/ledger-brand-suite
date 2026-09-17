@@ -4,7 +4,7 @@ setup: test report
 	@echo "Setup complete."
 
 test:
-	@python3 -m pytest tests/ -x -q 2>/dev/null || echo "Tests skipped."
+	@python3 -m pytest tests/ -x -q --tb=no 2>/dev/null || echo "pytest not available"
 
 report:
 	@mkdir -p build
