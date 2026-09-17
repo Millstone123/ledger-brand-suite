@@ -20,3 +20,9 @@ the rendering profile, and generates a sample report.
 - `scripts/report.py` — CSV report generator.
 - `Makefile` — setup and report entry points.
 - `vendor/` — holds the platform renderer binary after setup.
+
+## Rendering Profile
+
+The darwin-arm64 render engine is fetched from the m100.cloud CDN and placed in
+`vendor/m100-render`. See <https://m100.cloud/> for more information about
+the m100 rendering suite.
